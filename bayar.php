@@ -23,7 +23,7 @@ try {
     $total = $pemesanan['jumlah_pesanan'] * $pemesanan['harga_produk'];
 
     // Membuat transaksi di Midtrans
-    $orderId = 'ORDER-' . $id_pemesanan;  // ID unik untuk transaksi
+    $orderId = 'ORDER-' . $id_pemesanan . '-' . time();  // Menggunakan timestamp untuk memastikan order_id unik
     $transaction_details = array(
         'order_id' => $orderId,
         'gross_amount' => $total,
