@@ -85,7 +85,7 @@ if (!$result) {
                         <p class="card-text">Tanggal Pemesanan: <?php echo $row['tgl_pemesanan']; ?></p>
                         <p class="card-text">Status: <?php echo $row['status_pesanan']; ?></p>
                         <?php if ($row['status_pesanan'] == 'Dikonfirmasi') { ?>
-                        <a href="pembayaran.php?id_pemesanan=<?php echo $row['id_pemesanan']; ?>"
+                        <a href="bayar.php?id_pemesanan=<?php echo $row['id_pemesanan']; ?>"
                             class="btn btn-primary">Bayar Sekarang</a>
                         <?php } ?>
                     </div>

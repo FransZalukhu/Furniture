@@ -15,11 +15,25 @@ try {
     $pdo = new PDO('mysql:host=localhost;dbname=mebel', 'root', '');
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    $stmt = $pdo->prepare("INSERT INTO pemesanan (id_pembeli, id_produk, jumlah_pesanan, tgl_pemesanan, status_pesanan) VALUES (?, ?, ?, ?, ?)");
-    $stmt->execute([$id_pembeli, $id_produk, $jumlah_pesanan, $tgl_pemesanan, $status_pesanan]);
+    // Ambil harga produk dari tabel produk
+    $stmt = $pdo->prepare("SELECT harga_produk FROM produk WHERE id_produk = ?");
+    $stmt->execute([$id_produk]);
+    $produk = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$produk) {
+        echo "<script>alert('Produk tidak ditemukan');window.location='user_produk.php';</script>";
+        exit;
+    }
+
+    $harga_produk = $produk['harga_produk'];
+
+    // Simpan pemesanan ke database
+    $stmt = $pdo->prepare("INSERT INTO pemesanan (id_pembeli, id_produk, jumlah_pesanan, tgl_pemesanan, status_pesanan, harga_produk) VALUES (?, ?, ?, ?, ?, ?)");
+    $stmt->execute([$id_pembeli, $id_produk, $jumlah_pesanan, $tgl_pemesanan, $status_pesanan, $harga_produk]);
 
     echo "<script>alert('Pemesanan Berhasil');window.location='user_produk.php';</script>";
     exit;
 } catch (PDOException $e) {
     echo "Error: " . $e->getMessage();
 }
+?>
